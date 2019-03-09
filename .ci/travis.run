@@ -4,7 +4,7 @@ set -e
 
 if [ "$TRAVIS_BRANCH" != "coverity_scan" ]; then
 
-  docker pull tpm2software/tpm2-tss
+  docker build --tag tpm2tools -f .ci/Dockerfile.tpm2-tools .
   #
   # Docker starts you in a cloned repo of your project with the PR checkout out.
   # We want those changes IN the docker image, so use the -v option to mount the
@@ -15,7 +15,7 @@ if [ "$TRAVIS_BRANCH" != "coverity_scan" ]; then
   # Execute the build and test procedure by running .ci/docker.run
   #
   docker run --env-file .ci/docker.env \
-    -v `pwd`:/workspace/tpm2-tools tpm2software/tpm2-tss \
+    -v `pwd`:/workspace/tpm2-tools tpm2tools \
     /bin/bash -c '/workspace/tpm2-tools/.ci/docker.run'
 
   # check to ensure change hasn't introduced conflicting short options

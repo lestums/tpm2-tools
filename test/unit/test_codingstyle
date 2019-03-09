@@ -1,0 +1,24 @@
+#!/bin/bash
+
+SCRIPT_DIR="$(readlink -f $(dirname $0))"
+SOURCE_DIR="$(readlink -e ${SCRIPT_DIR}/../../)"
+
+LIBRARY_DIR=$(readlink -e ${SOURCE_DIR}/lib)
+TOOLS_DIR=$(readlink -e ${SOURCE_DIR}/tools)
+
+[ -d "${LIBRARY_DIR}" ] || {
+    echo "FAIL: Folder ./lib not found in source tree"
+    exit 1
+}
+
+[ -d "${TOOLS_DIR}" ] || {
+    echo "FAIL: Folder ./tools not found in source tree"
+    exit 1
+}
+
+SOURCES="$(find "${LIBRARY_DIR}" -iname "*.c" | xargs) $(find "${TOOLS_DIR}" -iname "*.c" | xargs)"
+HEADERS="$(find "${LIBRARY_DIR}" -iname "*.h" | xargs) $(find "${TOOLS_DIR}" -iname "*.h" | xargs)"
+
+${SOURCE_DIR}/scripts/utils/formatcheck.py ${SOURCES} ${HEADERS}
+
+exit $?

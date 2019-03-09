@@ -55,7 +55,7 @@ echo "Generating file lists: ${VARS_FILE}"
 
   src_listvar "test/integration/tests" "*.sh" "SYSTEM_TESTS"
   src_listvar "test/integration/tests/tcti/abrmd" "*.sh" "SYSTEM_TESTS_TCTI_ABRMD"
-  printf "ALL_SYSTEM_TESTS = \$(SYSTEM_TESTS) \$(SYSTEM_TESTS_TCTI_ABRMD)\n"
+  printf "ALL_SYSTEM_TESTS = ./test/unit/test_codingstyle \$(SYSTEM_TESTS) \$(SYSTEM_TESTS_TCTI_ABRMD)\n"
 ) > ${VARS_FILE}
 
 mkdir -p m4
